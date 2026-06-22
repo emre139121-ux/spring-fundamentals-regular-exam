@@ -1,43 +1,35 @@
 package app.mapper.user;
 
 import app.model.dto.user.UserDto;
+import app.model.dto.user.UserRegisterRequest;
+import app.model.dto.user.UserRole;
 import app.model.entity.user.User;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class UserMapper {
 
-//    public static User toEntity(UserDto userDto) {
-//        return User.builder()
-//                .id(userDto.getId())
-//                .username(userDto.getUsername())
-//                .firstName(userDto.getFirstName())
-//                .lastName(userDto.getLastName())
-//                .profilePicture(userDto.getProfilePicture())
-//                .email(userDto.getEmail())
-//                .country(userDto.getCountry())
-//                .role(userDto.getRole())
-//                .isActive(userDto.isActive())
-//                .createdOn(userDto.getCreatedOn())
-//                .updatedOn(userDto.getUpdatedOn())
-//                .build();
-//    }
+    public static User toEntity(UserDto userDto) {
+        return User.builder()
+                .id(userDto.getId())
+                .username(userDto.getUsername())
+                .email(userDto.getEmail())
+                .role(userDto.getRole())
+                .build();
+    }
 
-//    public static User toUserEntity(UserRegisterRequest userRegisterRequest) {
-//        if (userRegisterRequest == null) {
-//            return null;
-//        }
-//
-//        return User.builder()
-//                .username(userRegisterRequest.getUsername())
-//                .password(userRegisterRequest.getPassword())
-//                .country(userRegisterRequest.getCountry())
-//                .role(UserRole.USER)
-//                .isActive(true)
-//                .createdOn(LocalDateTime.now())
-//                .updatedOn(LocalDateTime.now())
-//                .build();
-//    }
+    public static User toUserEntity(UserRegisterRequest userRegisterRequest) {
+        if (userRegisterRequest == null) {
+            return null;
+        }
+
+        return User.builder()
+                .username(userRegisterRequest.getUsername())
+                .email(userRegisterRequest.getEmail())
+                .password(userRegisterRequest.getPassword())
+                .role(userRegisterRequest.getUserRole())
+                .build();
+    }
 
     public static UserDto toUserDto(User user) {
         if (user == null) {
