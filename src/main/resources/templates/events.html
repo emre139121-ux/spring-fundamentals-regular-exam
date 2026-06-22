@@ -4,58 +4,45 @@
     <meta charset="UTF-8" /><title>Events</title><link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<main>
+<header th:replace="~{fragments/navbar :: navbar-guest}"></header>
+
+<section class="page-section">
+
     <div class="container">
-        <div class="page-header">
-            <div>
-                <h1>Event Catalog</h1>
-                <p>Discover upcoming events and book your spot.</p>
+
+        <h1>Available Events</h1>
+
+        <div class="event-grid">
+
+            <div class="event-card"
+                 th:each="event : ${events}">
+
+                <img th:src="${event.coverImageUrl}"
+                     alt="event">
+
+                <h3 th:text="${event.location}">
+                </h3>
+
+                <p th:text="${event.description}">
+                </p>
+
+                <a class="btn-primary"
+                   th:href="@{/events/{id}(id=${event.id})}">
+
+                    Details
+
+                </a>
+
             </div>
-            <a sec:authorize="hasRole('ORGANIZER')" th:href="@{/events/create}" href="create-event.html" class="btn btn-primary">+ New Event</a>
+
         </div>
 
-        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">Success</div>
-
-        <div th:if="${#lists.isEmpty(events)}" class="empty">
-            <h3>No events yet</h3>
-            <p>Check back soon — new events are added regularly.</p>
-        </div>
-
-        <div class="event-grid" th:unless="${#lists.isEmpty(events)}">
-            <article class="event-card" th:each="event : ${events}">
-                <div class="cover"></div>
-                <div class="body">
-                    <span class="badge badge-primary" th:text="${event.location}">City</span>
-                    <h3 th:text="${event.title}">Event title</h3>
-                    <div class="meta">
-                        <span th:text="${#temporals.format(event.eventDate, 'dd MMM yyyy · HH:mm')}">Date</span>
-                        <span>· by <span th:text="${event.organizer.username}">organizer</span></span>
-                    </div>
-                    <p class="text-muted" style="margin:6px 0 0;font-size:.9rem;"
-                       th:text="${#strings.abbreviate(event.description, 110)}">Short description...</p>
-                    <div class="actions">
-                        <a class="btn btn-secondary" th:href="@{'/events/' + ${event.id}}" href="event-details.html">View details</a>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Static fallback samples (visible when there is no Thymeleaf engine) -->
-            <article class="event-card" th:remove="all">
-                <div class="cover"></div>
-                <div class="body">
-                    <span class="badge badge-primary">Sofia</span>
-                    <h3>Spring Tech Summit 2026</h3>
-                    <div class="meta"><span>22 Jul 2026 · 10:00</span><span>· by organizer</span></div>
-                    <p class="text-muted" style="margin:6px 0 0;font-size:.9rem;">A full-day event with talks and workshops on the Spring ecosystem.</p>
-                    <div class="actions"><a class="btn btn-secondary" href="event-details.html">View details</a></div>
-                </div>
-            </article>
-        </div>
     </div>
-</main>
+
+</section>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </body>
 </html>
