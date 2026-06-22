@@ -14,7 +14,7 @@
             <h1>Create your account</h1>
             <p class="sub">Join EventSphere to book and organize events.</p>
 
-            <form class="form" th:action="@{/register}" action="login.html" th:object="${registerForm}" method="post" novalidate>
+            <form class="form" th:action="@{/register}" action="login.html" th:object="${userRegisterRequest}" method="post" novalidate>
                 <div class="form-group">
                     <label class="form-label" for="username">Username</label>
                     <input class="form-control" type="text" id="username" th:field="*{username}" name="username"
@@ -37,16 +37,6 @@
                            placeholder="At least 6 characters" required minlength="6" maxlength="100"
                            th:classappend="${#fields.hasErrors('password')} ? 'field-invalid'" />
                     <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</small>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="role">I want to register as</label>
-                    <select class="form-control" id="role" th:field="*{role}" name="role" required>
-                        <option value="">Choose a role</option>
-                        <option value="ATTENDEE">Attendee — book events</option>
-                        <option value="ORGANIZER">Organizer — create events</option>
-                    </select>
-                    <small class="error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role error</small>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Create account</button>
