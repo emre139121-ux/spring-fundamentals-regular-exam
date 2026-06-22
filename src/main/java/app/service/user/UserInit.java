@@ -4,6 +4,7 @@ import app.model.dto.user.UserDto;
 import app.model.dto.user.UserRegisterRequest;
 import app.model.dto.user.UserRole;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,9 @@ import java.util.List;
 @Slf4j
 @Component
 public class UserInit implements CommandLineRunner {
+
+    @Value("${app.admin.password}")
+    private String adminPassword;
 
     private final UserService userService;
 
@@ -28,7 +32,7 @@ public class UserInit implements CommandLineRunner {
 
         UserRegisterRequest userRegisterRequest = UserRegisterRequest.builder()
                 .username("defaultUser")
-                .password("123456")
+                .password(adminPassword)
                 .email("defaultEmail@example.com")
                 .userRole(UserRole.ADMIN)
                 .build();
