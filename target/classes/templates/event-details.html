@@ -4,78 +4,114 @@
     <meta charset="UTF-8" /><title>Event details</title><link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
 
-<main>
+<header th:replace="~{fragments/navbar :: navbar-auth}"></header>
+
+<section class="event-hero">
+
     <div class="container">
-        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">Success</div>
-        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}">Error</div>
 
-        <div class="detail-hero"></div>
+        <h1 th:text="${event.location}">
+        </h1>
 
-        <div class="page-header">
-            <div>
-                <span class="badge badge-primary" th:text="${event != null} ? ${event.location} : 'Sofia'">Sofia</span>
-                <h1 th:text="${event != null} ? ${event.title} : 'Spring Tech Summit 2026'">Event title</h1>
-                <p>by <strong th:text="${event != null} ? ${event.organizer.username} : 'organizer'">organizer</strong></p>
-            </div>
-            <div class="flex gap-8">
-                <th:block sec:authorize="isAuthenticated()">
-                    <form th:if="${canBook}" th:action="@{'/events/' + ${event.id} + '/book'}" action="events.html" method="post" style="margin:0;">
-                        <button class="btn btn-primary" type="submit">Book a spot</button>
-                    </form>
-                    <form th:if="${hasBooking}" th:action="@{'/bookings/' + ${bookingId} + '/cancel'}" action="events.html" method="post" style="margin:0;">
-                        <button class="btn btn-danger" type="submit">Cancel booking</button>
-                    </form>
-                </th:block>
-                <th:block th:if="${isOwner}">
-                    <a class="btn btn-secondary" th:href="@{'/events/' + ${event.id} + '/edit'}" href="edit-event.html">Edit</a>
-                    <a class="btn btn-secondary" th:href="@{'/events/' + ${event.id} + '/activities'}" href="activities.html">Activities</a>
-                    <form th:action="@{'/events/' + ${event.id} + '/delete'}" action="events.html" method="post" style="margin:0;"
-                          onsubmit="return confirm('Delete this event? This action cannot be undone.');">
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
-                </th:block>
-            </div>
+        <div class="event-date">
+
+            <h2 th:text="${event.eventDate}"></h2>
+
         </div>
 
-        <div class="detail-grid">
-            <div class="card">
-                <h2 style="margin-top:0;">About the event</h2>
-                <p th:text="${event != null} ? ${event.description} : 'Full description goes here...'" style="white-space:pre-line;color:var(--muted);">Description</p>
-
-                <div class="divider"></div>
-
-                <h3 style="margin-top:0;">Activities</h3>
-                <div th:if="${activities == null or #lists.isEmpty(activities)}" class="text-muted">No activities yet.</div>
-                <div class="activity-list" th:unless="${activities == null or #lists.isEmpty(activities)}">
-                    <div class="card activity-card" th:each="a : ${activities}">
-                        <div class="img" th:style="'background-image:url(' + ${a.imageUrl} + ')'"></div>
-                        <div class="body">
-                            <h4 th:text="${a.title}">Activity</h4>
-                            <p th:text="${#strings.abbreviate(a.description, 110)}">Short description</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <aside class="card">
-                <h3 style="margin-top:0;">Event info</h3>
-                <ul class="info-list">
-                    <li><span class="label">Date</span>
-                        <span th:text="${event != null} ? ${#temporals.format(event.eventDate, 'dd MMM yyyy')} : '22 Jul 2026'">22 Jul 2026</span></li>
-                    <li><span class="label">Time</span>
-                        <span th:text="${event != null} ? ${#temporals.format(event.eventDate, 'HH:mm')} : '10:00'">10:00</span></li>
-                    <li><span class="label">Location</span>
-                        <span th:text="${event != null} ? ${event.location} : 'Sofia'">Sofia</span></li>
-                    <li><span class="label">Bookings</span>
-                        <span th:text="${bookingsCount} ?: 0">0</span></li>
-                </ul>
-            </aside>
-        </div>
     </div>
-</main>
+
+</section>
+
+<section class="page-section">
+
+    <div class="container">
+
+        <div class="event-details-card">
+
+            <h2>About This Event</h2>
+
+            <p th:text="${event.description}">
+                Description
+            </p>
+
+            <hr>
+
+            <p>
+
+                <strong>Created By:</strong>
+
+                <span th:text="${event.organizer.username}">
+                    Organizer
+                </span>
+
+            </p>
+
+            <div class="action-buttons">
+
+                <a class="btn-primary"
+                   th:href="@{/events/{id}/join(id=${event.id})}">
+
+                    Join Event
+
+                </a>
+
+                <a class="btn-secondary"
+                   th:href="@{/events/{id}/edit(id=${event.id})}">
+
+                    Edit
+
+                </a>
+
+                <form th:action="@{/events/{id}/delete(id=${event.id})}"
+                      method="post">
+
+                    <button class="btn-danger">
+
+                        Delete
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="page-section">
+
+    <div class="container">
+
+        <h2>Activities</h2>
+
+        <div class="event-grid">
+
+            <div class="event-card"
+                 th:each="activities : ${event.activities}">
+
+                <img th:src="${activities.imageUrl}"
+                     alt="Activities">
+
+                <h3 th:text="${activities.title}">
+                </h3>
+
+                <p th:text="${activities.description}">
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
+
 </body>
 </html>

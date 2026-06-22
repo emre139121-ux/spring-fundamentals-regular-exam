@@ -1,32 +1,103 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<nav th:fragment="navbar" class="navbar">
-    <div class="navbar-inner">
-        <a class="brand" th:href="@{/}" href="index.html">
-            <span class="dot"></span>
-            EventSphere
+<!-- Navbar for unauthenticated/guest users -->
+<nav th:fragment="navbar-guest">
+
+    <div class="container nav-container">
+
+        <a th:href="@{/}"
+           class="logo">
+
+            Event Planner
+
         </a>
-        <div class="nav-links">
-            <a th:href="@{/}" href="index.html">Home</a>
-            <a th:href="@{/events}" href="events.html">Events</a>
 
-            <!-- Guest links -->
-            <th:block sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login}" href="login.html">Login</a>
-                <a th:href="@{/register}" href="register.html" class="btn btn-primary" style="padding:6px 14px;">Sign up</a>
-            </th:block>
+        <ul class="nav-links">
 
-            <!-- Authenticated links -->
-            <th:block sec:authorize="isAuthenticated()">
-                <a th:href="@{/events/mine}" href="events.html">My Events</a>
-                <a sec:authorize="hasRole('ORGANIZER')" th:href="@{/events/create}" href="create-event.html">Create Event</a>
-                <form th:action="@{/logout}" method="post" style="display:inline;margin:0;">
-                    <button type="submit" class="btn btn-secondary" style="padding:6px 14px;">Logout</button>
-                </form>
-            </th:block>
-        </div>
+            <li>
+                <a th:href="@{/}">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/events}">
+                    Events
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/login}">
+                    Login
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/register}">
+                    Register
+                </a>
+            </li>
+
+        </ul>
+
     </div>
+
+</nav>
+
+<!-- Navbar for authenticated users -->
+<nav th:fragment="navbar-auth">
+
+    <div class="container nav-container">
+
+        <a th:href="@{/}"
+           class="logo">
+
+            Event Planner
+
+        </a>
+
+        <ul class="nav-links">
+
+            <li>
+                <a th:href="@{/}">
+                    Home
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/events}">
+                    Events
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/event/create}">
+                    Create Event
+                </a>
+            </li>
+
+            <li>
+                <a th:href="@{/my-events}">
+                    My Events
+                </a>
+            </li>
+
+            <li>
+                <form th:action="@{/logout}"
+                      method="POST"
+                      style="display:inline;">
+                    <button type="submit"
+                            class="btn-logout">
+                        Logout
+                    </button>
+                </form>
+            </li>
+
+        </ul>
+
+    </div>
+
 </nav>
 </body>
 </html>

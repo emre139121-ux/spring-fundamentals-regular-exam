@@ -4,89 +4,137 @@
     <meta charset="UTF-8" /><title>Manage Activities</title><link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+<nav th:replace="~{fragments/navbar :: navbar-guest}"></nav>
 
-<main>
+<section class="page-section">
+
     <div class="container">
+
         <div class="page-header">
-            <div>
-                <h1>Manage Activities</h1>
-                <p>For event <strong th:text="${event != null} ? ${event.title} : 'Your Event'">Event name</strong></p>
-            </div>
-            <a class="btn btn-secondary" th:href="@{'/events/' + ${event != null ? event.id : ''}}" href="event-details.html">Back to event</a>
+
+            <h1>Manage Activities</h1>
+
+            <p>
+                Add activities that event Attendees can visit
+                during the event.
+            </p>
+
         </div>
 
-        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}">Success</div>
-
-        <div class="detail-grid">
-            <!-- Existing activities -->
-            <div>
-                <div th:if="${#lists.isEmpty(activities)}" class="card empty">
-                    <h3>No activities yet</h3>
-                    <p>Add the first activity using the form on the right.</p>
-                </div>
-
-                <div class="activity-list" th:unless="${#lists.isEmpty(activities)}">
-                    <div class="card activity-card" th:each="a : ${activities}">
-                        <div class="img" th:style="'background-image:url(' + ${a.imageUrl} + ')'"></div>
-                        <div class="body">
-                            <h4 th:text="${a.title}">Activity</h4>
-                            <p th:text="${a.description}">Description</p>
-                            <div class="flex gap-8">
-                                <a class="btn btn-secondary" th:href="@{'/events/' + ${event.id} + '/activities/' + ${a.id} + '/edit'}" href="activities.html">Edit</a>
-                                <form th:action="@{'/events/' + ${event.id} + '/activities/' + ${a.id} + '/delete'}" action="activities.html"
-                                      method="post" style="margin:0;"
-                                      onsubmit="return confirm('Delete this activity?');">
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Add / edit form -->
-            <aside class="card">
-                <h3 style="margin-top:0;" th:text="${activityForm != null and activityForm.id != null} ? 'Edit activity' : 'Add new activity'">Add new activity</h3>
-                <form class="form"
-                      th:action="@{'/events/' + ${event.id} + '/activities'}"
-                      action="activities.html"
-                      th:object="${activityForm}" method="post" novalidate>
-                    <input type="hidden" th:field="*{id}" />
-
-                    <div class="form-group">
-                        <label class="form-label" for="title">Title</label>
-                        <input class="form-control" id="title" type="text" th:field="*{title}" name="title"
-                               required minlength="2" maxlength="100" placeholder="e.g. Keynote talk"
-                               th:classappend="${#fields.hasErrors('title')} ? 'field-invalid'" />
-                        <small class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="imageUrl">Image URL</label>
-                        <input class="form-control" id="imageUrl" type="url" th:field="*{imageUrl}" name="imageUrl"
-                               required maxlength="500" placeholder="https://..."
-                               th:classappend="${#fields.hasErrors('imageUrl')} ? 'field-invalid'" />
-                        <small class="error" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Image URL error</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="description">Description</label>
-                        <textarea class="form-control" id="description" th:field="*{description}" name="description"
-                                  required minlength="10" maxlength="1000"
-                                  th:classappend="${#fields.hasErrors('description')} ? 'field-invalid'"></textarea>
-                        <small class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</small>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary"
-                                th:text="${activityForm != null and activityForm.id != null} ? 'Save changes' : 'Add activity'">Add activity</button>
-                    </div>
-                </form>
-            </aside>
-        </div>
     </div>
-</main>
+
+</section>
+
+<section class="form-section">
+
+    <div class="form-card large">
+
+        <h2>Add activities</h2>
+
+        <form th:action="@{/activities/create}"
+              method="post">
+
+            <div class="form-group">
+
+                <label>Title</label>
+
+                <input type="text"
+                       name="title">
+
+                <small class="error"
+                       th:errors="*{title}">
+                </small>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Image URL</label>
+
+                <input type="text"
+                       name="imageUrl">
+
+                <small class="error"
+                       th:errors="*{imageUrl}">
+                </small>
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Description</label>
+
+                <textarea rows="5"
+                          name="description">
+                </textarea>
+
+                <small class="error"
+                       th:errors="*{description}">
+                </small>
+
+            </div>
+
+            <button class="btn-primary">
+
+                Add Activities
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<section class="page-section">
+
+    <div class="container">
+
+        <h2>Current Activities</h2>
+
+        <div class="trip-grid">
+
+            <div class="trip-card"
+                 th:each="attraction : ${activities}">
+
+                <img th:src="${activities.imageUrl}"
+                     alt="Attraction">
+
+                <h3 th:text="${activities.title}">
+                </h3>
+
+                <p th:text="${activities.description}">
+                </p>
+
+                <div class="action-buttons">
+
+                    <a class="btn-secondary"
+                       th:href="@{/activities/{id}/edit(id=${activities.id})}">
+
+                        Edit
+
+                    </a>
+
+                    <form th:action="@{/activities/{id}/delete(id=${activities.id})}"
+                          method="post">
+
+                        <button class="btn-danger">
+
+                            Delete
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
