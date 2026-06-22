@@ -64,12 +64,16 @@ public class EventController {
             return modelAndView;
         }
         UUID userId = (UUID) httpSession.getAttribute("user_id");
+
         UserDto organizer = userService.getUserById(userId);
+        
         if (organizer == null) {
             return new ModelAndView("redirect:/login");
         }
+
         EventDto createdEvent = eventService.createEvent(eventDto, UserMapper.toEntity(organizer));
-        return new ModelAndView("redirect:/events" + createdEvent.getId());
+
+        return new ModelAndView("redirect:/events/" + createdEvent.getId());
     }
     @GetMapping("/{id}/edit")
     public ModelAndView getEditEventPage(@PathVariable UUID id, HttpSession httpSession) {
