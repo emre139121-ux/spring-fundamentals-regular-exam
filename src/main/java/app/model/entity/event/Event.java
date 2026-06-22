@@ -39,5 +39,5 @@ public class Event {
     private User organizer;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Activity> attractions = new ArrayList<>();
+    private List<Activity> activities = new ArrayList<>();
 }

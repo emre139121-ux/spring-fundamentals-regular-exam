@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Register · EventSphere')}">
+    <meta charset="UTF-8" />
+    <title>Register</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main>
+    <div class="container auth-wrap">
+        <div class="card auth-card">
+            <h1>Create your account</h1>
+            <p class="sub">Join EventSphere to book and organize events.</p>
+
+            <form class="form" th:action="@{/register}" action="login.html" th:object="${registerForm}" method="post" novalidate>
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" id="username" th:field="*{username}" name="username"
+                           placeholder="3-30 characters" required minlength="3" maxlength="30"
+                           th:classappend="${#fields.hasErrors('username')} ? 'field-invalid'" />
+                    <small class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" type="email" id="email" th:field="*{email}" name="email"
+                           placeholder="you@example.com" required maxlength="255"
+                           th:classappend="${#fields.hasErrors('email')} ? 'field-invalid'" />
+                    <small class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" id="password" th:field="*{password}" name="password"
+                           placeholder="At least 6 characters" required minlength="6" maxlength="100"
+                           th:classappend="${#fields.hasErrors('password')} ? 'field-invalid'" />
+                    <small class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="role">I want to register as</label>
+                    <select class="form-control" id="role" th:field="*{role}" name="role" required>
+                        <option value="">Choose a role</option>
+                        <option value="ATTENDEE">Attendee — book events</option>
+                        <option value="ORGANIZER">Organizer — create events</option>
+                    </select>
+                    <small class="error" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role error</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Create account</button>
+            </form>
+
+            <p class="auth-footer">
+                Already have an account? <a th:href="@{/login}" href="login.html">Sign in</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
