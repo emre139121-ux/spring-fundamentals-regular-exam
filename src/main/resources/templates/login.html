@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Login · EventSphere')}">
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main>
+    <div class="container auth-wrap">
+        <div class="card auth-card">
+            <h1>Welcome back</h1>
+            <p class="sub">Sign in to manage your bookings and events.</p>
+
+            <div th:if="${param.error}" class="alert alert-error">Invalid username or password.</div>
+            <div th:if="${param.logout}" class="alert alert-success">You have been logged out.</div>
+
+            <form class="form" th:action="@{/login}" action="events.html" method="post" novalidate>
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <input class="form-control" type="text" id="username" name="username"
+                           placeholder="your_username" required minlength="3" maxlength="30" />
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" id="password" name="password"
+                           placeholder="••••••••" required minlength="6" maxlength="100" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+            </form>
+
+            <p class="auth-footer">
+                Don't have an account? <a th:href="@{/register}" href="register.html">Register here</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

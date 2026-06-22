@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="footer">
+    <div class="container">
+        <p style="margin:0;">
+            © <span th:text="${#dates.year(#dates.createNow())}">2026</span> EventSphere · Built with Spring Boot &amp; Thymeleaf
+        </p>
+    </div>
+</footer>
+</body>
+</html>

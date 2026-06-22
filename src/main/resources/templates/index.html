@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('EventSphere · Discover and Host Events')}">
+    <meta charset="UTF-8" />
+    <title>EventSphere</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<nav th:replace="~{fragments/navbar :: navbar}"></nav>
+
+<main>
+    <section class="hero">
+        <span class="badge badge-accent">Welcome to EventSphere</span>
+        <h1>Plan, share and join <span class="gradient">amazing events</span></h1>
+        <p>From local meetups to large conferences — discover events around you, book your spot in seconds and manage your own as an organizer.</p>
+        <div class="hero-actions">
+            <a th:href="@{/events}" href="events.html" class="btn btn-primary">Browse Events</a>
+            <a th:href="@{/register}" href="register.html" class="btn btn-secondary">Create an Account</a>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="features">
+            <div class="card feature">
+                <div class="icon">★</div>
+                <h3>Curated Catalog</h3>
+                <p>Browse a clean catalog of upcoming events with rich details and activities.</p>
+            </div>
+            <div class="card feature">
+                <div class="icon">✓</div>
+                <h3>One-Click Booking</h3>
+                <p>Reserve your spot instantly and manage all of your bookings in one place.</p>
+            </div>
+            <div class="card feature">
+                <div class="icon">⚡</div>
+                <h3>For Organizers</h3>
+                <p>Create events, manage activities and reach your attendees with ease.</p>
+            </div>
+            <div class="card feature">
+                <div class="icon">🔒</div>
+                <h3>Secure by Design</h3>
+                <p>Role-based access, hashed passwords, and validated forms across the app.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>
