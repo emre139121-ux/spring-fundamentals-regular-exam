@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<header th:replace="~{fragments/navbar :: navbar-guest}"></header>
+<header th:replace="~{fragments/navbar :: navbar-auth}"></header>
 
 <section class="page-section">
 
@@ -17,9 +17,6 @@
 
             <div class="event-card"
                  th:each="event : ${events}">
-
-                <img th:src="${event.coverImageUrl}"
-                     alt="event">
 
                 <h3 th:text="${event.location}">
                 </h3>
